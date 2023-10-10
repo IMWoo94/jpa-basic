@@ -88,11 +88,29 @@ public class Main {
 			// System.out.println("=====================");
 
 			// 플러시
-			Member member201 = new Member(201L, "member200");
-			em.persist(member201);
-			System.out.println("===================");
-			em.flush();
-			System.out.println("===================");
+			// Member member201 = new Member(201L, "member200");
+			// em.persist(member201);
+			// System.out.println("===================");
+			// em.flush();
+			// System.out.println("===================");
+
+			// 준영속 상태로 만들기
+			// Member findMember1 = em.find(Member.class, 1L);
+			// findMember1.setName("aaaa");
+
+			// em.detach(findMember1);
+			// em.clear();
+			// Member findMember2 = em.find(Member.class, 1L);
+			// System.out.println("(findMember2 == findMember1) = " + (findMember2 == findMember1));
+
+			// 병합 하기
+			Member findMember1 = em.find(Member.class, 1L);
+
+			em.clear();
+			System.out.println("==========");
+			Member findMember2 = em.merge(findMember1);
+
+			System.out.println("(findMember2 == findMember1) = " + (findMember2 == findMember1));
 
 			tx.commit();
 
