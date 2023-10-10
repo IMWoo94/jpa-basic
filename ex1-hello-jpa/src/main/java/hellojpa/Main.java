@@ -104,13 +104,27 @@ public class Main {
 			// System.out.println("(findMember2 == findMember1) = " + (findMember2 == findMember1));
 
 			// 병합 하기
-			Member findMember1 = em.find(Member.class, 1L);
+			// Member findMember1 = em.find(Member.class, 1L);
+			//
+			// em.clear();
+			// System.out.println("==========");
+			// Member findMember2 = em.merge(findMember1);
+			//
+			// System.out.println("(findMember2 == findMember1) = " + (findMember2 == findMember1));
 
-			em.clear();
-			System.out.println("==========");
-			Member findMember2 = em.merge(findMember1);
+			// enum 타입 ORDINAL 쓰면 일어나느 참사
+			Member member = new Member();
+			member.setId(2L);
+			member.setUsername("test");
+			member.setRoleType(RoleType.USER);
 
-			System.out.println("(findMember2 == findMember1) = " + (findMember2 == findMember1));
+			Member member1 = new Member();
+			member1.setId(3L);
+			member1.setUsername("test");
+			member1.setRoleType(RoleType.ADMIN);
+
+			em.persist(member);
+			em.persist(member1);
 
 			tx.commit();
 
