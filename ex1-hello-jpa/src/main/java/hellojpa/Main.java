@@ -55,6 +55,36 @@ public class Main {
 			// // 삭제
 			// em.remove(member);
 
+			// 1 차 캐시 확인
+			// Member member = new Member();
+			// member.setId(1L);
+			// member.setName("helloJPA");
+			//
+			// System.out.println("=== BEFORE ===");
+			// em.persist(member);
+			// System.out.println("=== AFTER ===");
+
+			// Member findMember1 = em.find(Member.class, 1L);
+			// Member findMember2 = em.find(Member.class, 1L);
+			// System.out.println("findMember.getName() = " + findMember.getName());
+			// System.out.println("findMember.getId() = " + findMember.getId());
+
+			// 동일성 보장
+			// System.out.println("(findMember2 == findMember1) = " + (findMember2 == findMember1));
+
+			// 쓰기 지연
+			// Member member = new Member(103L, "sprinnA");
+			// Member member1 = new Member(104L, "springB");
+			//
+			// em.persist(member);
+			// System.out.println("*********************");
+			// em.persist(member1);
+			// System.out.println("=====================");
+
+			// 변경 감지
+			Member findMember1 = em.find(Member.class, 1L);
+			findMember1.setName("test");
+
 			tx.commit();
 
 		} catch (Exception e) {
