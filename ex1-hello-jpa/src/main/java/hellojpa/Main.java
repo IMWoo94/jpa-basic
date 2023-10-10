@@ -41,6 +41,20 @@ public class Main {
 			// 	System.out.println("member.getName() = " + member.getName());
 			// }
 
+			// 비영속 상태
+			// Member member = new Member();
+			// member.setId(1L);
+			// member.setName("helloJPA");
+			//
+			// // 영속 상태
+			// em.persist(member);
+			//
+			// // 준 영속 상태
+			// em.detach(member);
+			//
+			// // 삭제
+			// em.remove(member);
+
 			tx.commit();
 
 		} catch (Exception e) {
