@@ -113,18 +113,36 @@ public class Main {
 			// System.out.println("(findMember2 == findMember1) = " + (findMember2 == findMember1));
 
 			// enum 타입 ORDINAL 쓰면 일어나느 참사
-			Member member = new Member();
-			member.setId(2L);
-			member.setUsername("test");
-			member.setRoleType(RoleType.USER);
+			// Member member = new Member();
+			// member.setId(2L);
+			// member.setUsername("test");
+			// member.setRoleType(RoleType.USER);
+			//
+			// Member member1 = new Member();
+			// member1.setId(3L);
+			// member1.setUsername("test");
+			// member1.setRoleType(RoleType.ADMIN);
+			//
+			// em.persist(member);
+			// em.persist(member1);
 
+			// @Id, @GeneratedValue 사용
+			Member member = new Member();
+			member.setUsername("A");
 			Member member1 = new Member();
-			member1.setId(3L);
-			member1.setUsername("test");
-			member1.setRoleType(RoleType.ADMIN);
+			member1.setUsername("B");
+			Member member2 = new Member();
+			member2.setUsername("C");
+			Member member3 = new Member();
+			member3.setUsername("D");
 
 			em.persist(member);
+			System.out.println("11111111");
 			em.persist(member1);
+			System.out.println("2222222");
+			em.persist(member2);
+			System.out.println("3333333");
+			em.persist(member3);
 
 			tx.commit();
 
