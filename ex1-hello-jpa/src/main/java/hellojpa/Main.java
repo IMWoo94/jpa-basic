@@ -82,8 +82,17 @@ public class Main {
 			// System.out.println("=====================");
 
 			// 변경 감지
-			Member findMember1 = em.find(Member.class, 1L);
-			findMember1.setName("test");
+			// Member findMember1 = em.find(Member.class, 1L);
+			// System.out.println("=====================");
+			// findMember1.setName("test");
+			// System.out.println("=====================");
+
+			// 플러시
+			Member member201 = new Member(201L, "member200");
+			em.persist(member201);
+			System.out.println("===================");
+			em.flush();
+			System.out.println("===================");
 
 			tx.commit();
 
