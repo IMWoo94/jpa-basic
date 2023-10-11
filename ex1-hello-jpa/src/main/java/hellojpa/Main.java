@@ -127,22 +127,37 @@ public class Main {
 			// em.persist(member1);
 
 			// @Id, @GeneratedValue 사용
-			Member member = new Member();
-			member.setUsername("A");
-			Member member1 = new Member();
-			member1.setUsername("B");
-			Member member2 = new Member();
-			member2.setUsername("C");
-			Member member3 = new Member();
-			member3.setUsername("D");
+			// Member member = new Member();
+			// member.setUsername("A");
+			// Member member1 = new Member();
+			// member1.setUsername("B");
+			// Member member2 = new Member();
+			// member2.setUsername("C");
+			// Member member3 = new Member();
+			// member3.setUsername("D");
+			//
+			// em.persist(member);
+			// System.out.println("11111111");
+			// em.persist(member1);
+			// System.out.println("2222222");
+			// em.persist(member2);
+			// System.out.println("3333333");
+			// em.persist(member3);
 
+			// 연관관계 RDB 관점 처리
+			Team team = new Team();
+			team.setName("TeamA");
+			em.persist(team);
+
+			Member member = new Member();
+			member.setUsername("member1");
+			member.setTeamId(team.getId());
 			em.persist(member);
-			System.out.println("11111111");
-			em.persist(member1);
-			System.out.println("2222222");
-			em.persist(member2);
-			System.out.println("3333333");
-			em.persist(member3);
+
+			Member findMember = em.find(Member.class, member.getId());
+
+			Long teamId = findMember.getTeamId();
+			Team findTeam = em.find(Team.class, teamId);
 
 			tx.commit();
 

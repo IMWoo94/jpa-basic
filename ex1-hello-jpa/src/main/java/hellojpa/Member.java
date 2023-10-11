@@ -1,29 +1,18 @@
 package hellojpa;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "Member")
-@SequenceGenerator(
-	name = "member_seq_generator",
-	sequenceName = "member_seq",
-	initialValue = 1, allocationSize = 2
-)
+// @SequenceGenerator(
+// 	name = "member_seq_generator",
+// 	sequenceName = "member_seq",
+// 	initialValue = 1, allocationSize = 2
+// )
 // @TableGenerator(
 // 	name = "MEMBER_SEQ_GENERATOR",
 // 	table = "MY_SEQUENCES",
@@ -31,29 +20,35 @@ import javax.persistence.TemporalType;
 public class Member {
 
 	@Id
+	@GeneratedValue
 	// @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE
-		, generator = "member_seq_generator")
+	// @GeneratedValue(strategy = GenerationType.SEQUENCE
+	// 	, generator = "member_seq_generator")
 	// @GeneratedValue(strategy = GenerationType.TABLE,
 	// 	generator = "MEMBER_SEQ_GENERATOR")
+	@Column(name = "MEMBER_ID")
 	private Long id;
 
-	@Column(name = "name")
+	@Column(name = "USERNAME")
 	private String username;
 
-	private Integer age;
-	@Enumerated(EnumType.STRING)
-	private RoleType roleType;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdDate;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastModifiedDate;
+	@Column(name = "TEAM_ID")
+	private Long teamId;
 
-	private LocalDate testLocalDate;
-	private LocalDateTime testLocalDateTime;
-
-	@Lob
-	private String description;
+	//
+	// private Integer age;
+	// @Enumerated(EnumType.STRING)
+	// private RoleType roleType;
+	// @Temporal(TemporalType.TIMESTAMP)
+	// private Date createdDate;
+	// @Temporal(TemporalType.TIMESTAMP)
+	// private Date lastModifiedDate;
+	//
+	// private LocalDate testLocalDate;
+	// private LocalDateTime testLocalDateTime;
+	//
+	// @Lob
+	// private String description;
 
 	public Member(Long id, String username) {
 		this.id = id;
@@ -61,14 +56,6 @@ public class Member {
 	}
 
 	public Member() {
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getUsername() {
@@ -79,43 +66,19 @@ public class Member {
 		this.username = username;
 	}
 
-	public Integer getAge() {
-		return age;
+	public Long getTeamId() {
+		return teamId;
 	}
 
-	public void setAge(Integer age) {
-		this.age = age;
+	public void setTeamId(Long teamId) {
+		this.teamId = teamId;
 	}
 
-	public RoleType getRoleType() {
-		return roleType;
+	public Long getId() {
+		return id;
 	}
 
-	public void setRoleType(RoleType roleType) {
-		this.roleType = roleType;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Date getLastModifiedDate() {
-		return lastModifiedDate;
-	}
-
-	public void setLastModifiedDate(Date lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setId(Long id) {
+		this.id = id;
 	}
 }
