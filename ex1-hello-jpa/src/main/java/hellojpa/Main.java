@@ -1,7 +1,5 @@
 package hellojpa;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -218,31 +216,43 @@ public class Main {
 
 			// 연관관계의 주인에 값을 입력해야한다. 꼭
 			// 최고의 해결책은 순수 객체 상태를 고려해서 주인, 주인이 아닌 곳 각각 다 넣어주자
-			Team teamA = new Team();
-			teamA.setName("TeamA");
-			em.persist(teamA);
+			// Team teamA = new Team();
+			// teamA.setName("TeamA");
+			// em.persist(teamA);
+			//
+			// Member member = new Member();
+			// member.setUsername("member1");
+			// // 편의 메소드 생성하여 teamA.getMembers().add(member); setTeam 시 입력 처리
+			// // member.setTeam(teamA);
+			// member.changeTeam(teamA);
+			// em.persist(member);
+			//
+			// // teamA.getMembers().add(member);
+			//
+			// // em.flush();
+			// // em.clear();
+			//
+			// Team findTeam = em.find(Team.class, teamA.getId());
+			// List<Member> members = findTeam.getMembers();
+			//
+			// System.out.println("==============");
+			// for (Member member1 : members) {
+			// 	System.out.println("member1.getUsername() = " + member1.getUsername());
+			// }
+			// System.out.println("members = " + findTeam);
+			// System.out.println("==============");
 
-			Member member = new Member();
-			member.setUsername("member1");
-			// 편의 메소드 생성하여 teamA.getMembers().add(member); setTeam 시 입력 처리
-			// member.setTeam(teamA);
-			member.changeTeam(teamA);
-			em.persist(member);
-
-			// teamA.getMembers().add(member);
-
-			// em.flush();
-			// em.clear();
-
-			Team findTeam = em.find(Team.class, teamA.getId());
-			List<Member> members = findTeam.getMembers();
-
-			System.out.println("==============");
-			for (Member member1 : members) {
-				System.out.println("member1.getUsername() = " + member1.getUsername());
-			}
-			System.out.println("members = " + findTeam);
-			System.out.println("==============");
+			// 일대다 단뱡향
+			// Member member = new Member();
+			// member.setUsername("member1");
+			//
+			// em.persist(member);
+			//
+			// Team team = new Team();
+			// team.setName("teamA");
+			// team.getMembers().add(member);
+			//
+			// em.persist(team);
 
 			tx.commit();
 
