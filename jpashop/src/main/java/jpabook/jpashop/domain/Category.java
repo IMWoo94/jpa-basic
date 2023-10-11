@@ -7,27 +7,36 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Item {
-
+public class Category {
 	@Id
 	@GeneratedValue
-	@Column(name = "ITEM_ID")
+	@Column(name = "CATEGORY_ID")
 	private Long id;
 
-	@ManyToMany(mappedBy = "items")
-	private List<Category> categories = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "CATEGORY_ITEM",
+		joinColumns = @JoinColumn(name = "CATEGORY_ID"),
+		inverseJoinColumns = @JoinColumn(name = "ITEM_ID"))
+	private List<Item> items = new ArrayList<>();
 
-	// @OneToMany(mappedBy = "item")
+	// @OneToMany(mappedBy = "category")
 	// private List<CategoryItem> categoryItems = new ArrayList<>();
 
 	private String name;
 
-	private int price;
+	@ManyToOne
+	@JoinColumn(name = "PARENT_ID")
+	private Category parent;
 
-	private int stockQuantity;
+	@OneToMany(mappedBy = "parent")
+	private List<Category> child;
 
 	public Long getId() {
 		return id;
@@ -43,21 +52,5 @@ public class Item {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
-	public int getStockQuantity() {
-		return stockQuantity;
-	}
-
-	public void setStockQuantity(int stockQuantity) {
-		this.stockQuantity = stockQuantity;
 	}
 }
