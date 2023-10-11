@@ -185,24 +185,64 @@ public class Main {
 			// System.out.println("findTeam.getName() = " + findTeam.getName());
 
 			// 양뱡향 매핑
+			// Team teamA = new Team();
+			// teamA.setName("TeamA");
+			// em.persist(teamA);
+			//
+			// Member member = new Member();
+			// member.setUsername("member1");
+			// member.setTeam(teamA);
+			// em.persist(member);
+			//
+			// em.flush();
+			// em.clear();
+			//
+			// Member findMember = em.find(Member.class, member.getId());
+			// List<Member> members = findMember.getTeam().getMembers();
+			//
+			// for (Member member1 : members) {
+			// 	System.out.println("member1.getUsername() = " + member1.getUsername());
+			// }
+
+			// 양뱡향 매핑 시 많이 하는 실수
+			// 주인이 아닌 곳에서 값을 입력하는 경우 처리가 되지 않습니다.
+			// Member member = new Member();
+			// member.setUsername("member1");
+			// em.persist(member);
+			//
+			// Team teamA = new Team();
+			// teamA.setName("TeamA");
+			// 역뱡향 ( 주인이 아닌 방향 ) 만 연관관계 설정
+			// teamA.getMembers().add(member);
+			// em.persist(teamA);
+
+			// 연관관계의 주인에 값을 입력해야한다. 꼭
+			// 최고의 해결책은 순수 객체 상태를 고려해서 주인, 주인이 아닌 곳 각각 다 넣어주자
 			Team teamA = new Team();
 			teamA.setName("TeamA");
 			em.persist(teamA);
 
 			Member member = new Member();
 			member.setUsername("member1");
-			member.setTeam(teamA);
+			// 편의 메소드 생성하여 teamA.getMembers().add(member); setTeam 시 입력 처리
+			// member.setTeam(teamA);
+			member.changeTeam(teamA);
 			em.persist(member);
 
-			em.flush();
-			em.clear();
+			// teamA.getMembers().add(member);
 
-			Member findMember = em.find(Member.class, member.getId());
-			List<Member> members = findMember.getTeam().getMembers();
+			// em.flush();
+			// em.clear();
 
+			Team findTeam = em.find(Team.class, teamA.getId());
+			List<Member> members = findTeam.getMembers();
+
+			System.out.println("==============");
 			for (Member member1 : members) {
 				System.out.println("member1.getUsername() = " + member1.getUsername());
 			}
+			System.out.println("members = " + findTeam);
+			System.out.println("==============");
 
 			tx.commit();
 

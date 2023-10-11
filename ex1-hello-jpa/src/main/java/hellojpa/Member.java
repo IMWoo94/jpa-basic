@@ -23,7 +23,7 @@ public class Member {
 	@ManyToOne
 	@JoinColumn(name = "TEAM_ID")
 	private Team team;
-	
+
 	public Member(Long id, String username) {
 		this.id = id;
 		this.username = username;
@@ -48,11 +48,25 @@ public class Member {
 		this.team = team;
 	}
 
+	public void changeTeam(Team team) {
+		this.team = team;
+		team.getMembers().add(this);
+	}
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Member{" +
+			"id=" + id +
+			", username='" + username + '\'' +
+			", team=" + team +
+			'}';
 	}
 }
