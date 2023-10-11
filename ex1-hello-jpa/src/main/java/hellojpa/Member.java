@@ -8,9 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -34,11 +33,14 @@ public class Member {
 	@JoinColumn(name = "LOCKER_ID")
 	private Locker locker;
 
-	@ManyToMany
-	@JoinTable(name = "MEMBER_PRODUCT",
-		joinColumns = @JoinColumn(name = "MEMBER_ID"),
-		inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
-	private List<Product> products = new ArrayList<>();
+	// @ManyToMany
+	// @JoinTable(name = "MEMBER_PRODUCT",
+	// 	joinColumns = @JoinColumn(name = "MEMBER_ID"),
+	// 	inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
+	// private List<Product> products = new ArrayList<>();
+
+	@OneToMany(mappedBy = "member")
+	private List<MemberProduct> memberProducts = new ArrayList<>();
 
 	public Member(Long id, String username) {
 		this.id = id;
