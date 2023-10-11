@@ -1,5 +1,7 @@
 package hellojpa;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -160,27 +162,47 @@ public class Main {
 			// Team findTeam = em.find(Team.class, teamId);
 
 			// 단뱡향 매핑
+			// Team teamA = new Team();
+			// teamA.setName("TeamA");
+			// em.persist(teamA);
+			//
+			// Team teamB = new Team();
+			// teamB.setName("TeamB");
+			// em.persist(teamB);
+			//
+			// Member member = new Member();
+			// member.setUsername("member1");
+			// member.setTeam(teamA);
+			// em.persist(member);
+			//
+			// // em.flush();
+			// // em.clear();
+			//
+			// Member findMember = em.find(Member.class, member.getId());
+			// Team findTeam = findMember.getTeam();
+			//
+			// findMember.setTeam(teamB);
+			// System.out.println("findTeam.getName() = " + findTeam.getName());
+
+			// 양뱡향 매핑
 			Team teamA = new Team();
 			teamA.setName("TeamA");
 			em.persist(teamA);
-
-			Team teamB = new Team();
-			teamB.setName("TeamB");
-			em.persist(teamB);
 
 			Member member = new Member();
 			member.setUsername("member1");
 			member.setTeam(teamA);
 			em.persist(member);
 
-			// em.flush();
-			// em.clear();
+			em.flush();
+			em.clear();
 
 			Member findMember = em.find(Member.class, member.getId());
-			Team findTeam = findMember.getTeam();
+			List<Member> members = findMember.getTeam().getMembers();
 
-			findMember.setTeam(teamB);
-			System.out.println("findTeam.getName() = " + findTeam.getName());
+			for (Member member1 : members) {
+				System.out.println("member1.getUsername() = " + member1.getUsername());
+			}
 
 			tx.commit();
 
