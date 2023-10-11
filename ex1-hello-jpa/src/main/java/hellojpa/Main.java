@@ -145,19 +145,42 @@ public class Main {
 			// em.persist(member3);
 
 			// 연관관계 RDB 관점 처리
-			Team team = new Team();
-			team.setName("TeamA");
-			em.persist(team);
+			// Team team = new Team();
+			// team.setName("TeamA");
+			// em.persist(team);
+			//
+			// Member member = new Member();
+			// member.setUsername("member1");
+			// member.setTeamId(team.getId());
+			// em.persist(member);
+			//
+			// Member findMember = em.find(Member.class, member.getId());
+			//
+			// Long teamId = findMember.getTeamId();
+			// Team findTeam = em.find(Team.class, teamId);
+
+			// 단뱡향 매핑
+			Team teamA = new Team();
+			teamA.setName("TeamA");
+			em.persist(teamA);
+
+			Team teamB = new Team();
+			teamB.setName("TeamB");
+			em.persist(teamB);
 
 			Member member = new Member();
 			member.setUsername("member1");
-			member.setTeamId(team.getId());
+			member.setTeam(teamA);
 			em.persist(member);
 
-			Member findMember = em.find(Member.class, member.getId());
+			// em.flush();
+			// em.clear();
 
-			Long teamId = findMember.getTeamId();
-			Team findTeam = em.find(Team.class, teamId);
+			Member findMember = em.find(Member.class, member.getId());
+			Team findTeam = findMember.getTeam();
+
+			findMember.setTeam(teamB);
+			System.out.println("findTeam.getName() = " + findTeam.getName());
 
 			tx.commit();
 
