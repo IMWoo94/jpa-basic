@@ -254,6 +254,21 @@ public class Main {
 			//
 			// em.persist(team);
 
+			// 상속관계 매핑
+
+			Movie movie = new Movie();
+			movie.setDiretor("aaa");
+			movie.setActor("bbb");
+			movie.setName("바람과함께사라지다");
+			movie.setPrice(1000);
+
+			em.persist(movie);
+
+			em.flush();
+			em.clear();
+
+			Movie findMovie = em.find(Movie.class, movie.getId());
+
 			tx.commit();
 
 		} catch (Exception e) {
