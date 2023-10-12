@@ -1,7 +1,8 @@
 package jpabook;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 // @IdClass(ParentId.class)
@@ -15,16 +16,28 @@ public class Parent {
 	// @Column(name = "PARENT_ID2")
 	// private String id2; // ParentId.id2 과 연결
 
-	@EmbeddedId
-	private ParentId id;
+	// @EmbeddedId
+	// private ParentId id;
+
+	@Id
+	@Column(name = "PARENT_ID")
+	private String id; // 식별 관계
 
 	private String name;
 
-	public ParentId getId() {
+	// public ParentId getId() {
+	// 	return id;
+	// }
+	//
+	// public void setId(ParentId id) {
+	// 	this.id = id;
+	// }
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(ParentId id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

@@ -30,17 +30,17 @@ public class JpaBookMain {
 			// Parent findParent = em.find(Parent.class, parentId);
 
 			// @EmbeddedId 사용 시 비 식별
-			Parent parent = new Parent();
-			ParentId parentId = new ParentId("myId1", "myId2");
-			parent.setId(parentId);
-			parent.setName("name");
-
-			em.persist(parent);
-
-			em.flush();
-			em.clear();
-
-			Parent findParent = em.find(Parent.class, parentId);
+			// Parent parent = new Parent();
+			// ParentId parentId = new ParentId("myId1", "myId2");
+			// parent.setId(parentId);
+			// parent.setName("name");
+			//
+			// em.persist(parent);
+			//
+			// em.flush();
+			// em.clear();
+			//
+			// Parent findParent = em.find(Parent.class, parentId);
 
 			tx.commit();
 
