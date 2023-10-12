@@ -1,5 +1,7 @@
 package hellojpa;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -256,18 +258,30 @@ public class Main {
 
 			// 상속관계 매핑
 
-			Movie movie = new Movie();
-			movie.setDiretor("aaa");
-			movie.setActor("bbb");
-			movie.setName("바람과함께사라지다");
-			movie.setPrice(1000);
+			// Movie movie = new Movie();
+			// movie.setDiretor("aaa");
+			// movie.setActor("bbb");
+			// movie.setName("바람과함께사라지다");
+			// movie.setPrice(1000);
+			//
+			// em.persist(movie);
+			//
+			// em.flush();
+			// em.clear();
+			//
+			// Movie findMovie = em.find(Movie.class, movie.getId());
 
-			em.persist(movie);
+			// 공통 매핑 정보 @MappedSuperclass
+			Member member = new Member();
+			member.setUsername("aaa");
+			member.setCreatedBy("kim");
+			member.setCreatedDate(LocalDateTime.now());
 
+			em.persist(member);
 			em.flush();
 			em.clear();
 
-			Movie findMovie = em.find(Movie.class, movie.getId());
+			Member findMember = em.find(Member.class, member.getId());
 
 			tx.commit();
 

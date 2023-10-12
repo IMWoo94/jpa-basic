@@ -9,7 +9,7 @@ import javax.persistence.InheritanceType;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 // @DiscriminatorColumn
-public abstract class Item {
+public abstract class Item extends BaseEntity {
 
 	@Id
 	@GeneratedValue
