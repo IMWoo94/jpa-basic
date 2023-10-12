@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
 import java.time.LocalDateTime;
@@ -31,10 +32,10 @@ public class Order extends BaseEntity {
 	@JoinColumn(name = "MEMBER_ID")
 	private Member member;
 
-	@OneToMany(mappedBy = "order")
+	@OneToMany(mappedBy = "order", cascade = ALL)
 	private List<OrderItem> orderItems = new ArrayList<>();
 
-	@OneToOne(fetch = LAZY)
+	@OneToOne(fetch = LAZY, cascade = ALL)
 	@JoinColumn(name = "DELIVERY_ID")
 	private Delivery delivery;
 
@@ -79,5 +80,21 @@ public class Order extends BaseEntity {
 
 	public void setStatus(OrderStatus status) {
 		this.status = status;
+	}
+
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
+	}
+
+	public Delivery getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(Delivery delivery) {
+		this.delivery = delivery;
 	}
 }

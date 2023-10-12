@@ -5,7 +5,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import jpabook.jpashop.domain.Book;
+import jpabook.jpashop.domain.Delivery;
+import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.domain.OrderItem;
 
 public class JpaMain {
 	public static void main(String[] args) {
@@ -21,11 +23,20 @@ public class JpaMain {
 		tx.begin();
 		try {
 
-			Book book = new Book();
-			book.setName("JPA");
-			book.setAuthor("asdas");
+			Delivery delivery = new Delivery();
+			// em.persist(delivery);
 
-			em.persist(book);
+			OrderItem orderItem1 = new OrderItem();
+			OrderItem orderItem2 = new OrderItem();
+			// em.persist(orderItem1);
+			// em.persist(orderItem2);
+
+			Order order = new Order();
+			order.setDelivery(delivery);
+			order.getOrderItems().add(orderItem1);
+			order.getOrderItems().add(orderItem2);
+
+			em.persist(order);
 
 			tx.commit();
 
