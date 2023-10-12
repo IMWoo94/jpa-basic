@@ -1,7 +1,5 @@
 package hellojpa;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -272,16 +270,16 @@ public class Main {
 			// Movie findMovie = em.find(Movie.class, movie.getId());
 
 			// 공통 매핑 정보 @MappedSuperclass
-			Member member = new Member();
-			member.setUsername("aaa");
-			member.setCreatedBy("kim");
-			member.setCreatedDate(LocalDateTime.now());
-
-			em.persist(member);
-			em.flush();
-			em.clear();
-
-			Member findMember = em.find(Member.class, member.getId());
+			// Member member = new Member();
+			// member.setUsername("aaa");
+			// member.setCreatedBy("kim");
+			// member.setCreatedDate(LocalDateTime.now());
+			//
+			// em.persist(member);
+			// em.flush();
+			// em.clear();
+			//
+			// Member findMember = em.find(Member.class, member.getId());
 
 			tx.commit();
 
