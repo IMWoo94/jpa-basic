@@ -1,14 +1,13 @@
 package jpabook;
 
-import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 
 @Entity
-@IdClass(ChildId.class)
+// @IdClass(ChildId.class)
 public class Child {
 
 	// @Id
@@ -21,14 +20,22 @@ public class Child {
 	// })
 	// private Parent parent;
 
-	@Id
+	// @Id
+	// @ManyToOne
+	// @JoinColumn(name = "PARENT_ID")
+	// public Parent parent;
+	//
+	// @Id
+	// @Column(name = "CHILD_ID")
+	// private String childId;
+
+	@MapsId("parent")
 	@ManyToOne
 	@JoinColumn(name = "PARENT_ID")
 	public Parent parent;
 
-	@Id
-	@Column(name = "CHILD_ID")
-	private String childId;
+	@EmbeddedId
+	private ChildId childId;
 
 	private String name;
 

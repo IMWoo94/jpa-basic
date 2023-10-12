@@ -3,9 +3,14 @@ package jpabook;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class ChildId implements Serializable {
 
 	private String parent;
+	@Column(name = "CHILD_ID")
 	private String childId;
 
 	@Override
