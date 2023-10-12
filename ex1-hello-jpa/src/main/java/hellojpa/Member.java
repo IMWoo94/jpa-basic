@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -29,9 +28,9 @@ public class Member extends BaseEntity {
 	@JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
 	private Team team;
 
-	@OneToOne
-	@JoinColumn(name = "LOCKER_ID")
-	private Locker locker;
+	// @OneToOne
+	// @JoinColumn(name = "LOCKER_ID")
+	// private Locker locker;
 
 	// @ManyToMany
 	// @JoinTable(name = "MEMBER_PRODUCT",
