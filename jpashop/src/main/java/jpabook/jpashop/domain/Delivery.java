@@ -1,5 +1,7 @@
 package jpabook.jpashop.domain;
 
+import static javax.persistence.FetchType.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,7 +18,7 @@ public class Delivery extends BaseEntity {
 	@Column(name = "DELIVERY_ID")
 	private Long id;
 
-	@OneToOne(mappedBy = "delivery")
+	@OneToOne(mappedBy = "delivery", fetch = LAZY)
 	private Order order;
 
 	private String ctiy;
