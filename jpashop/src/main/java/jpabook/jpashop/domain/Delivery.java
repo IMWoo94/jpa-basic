@@ -3,6 +3,7 @@ package jpabook.jpashop.domain;
 import static javax.persistence.FetchType.*;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -21,10 +22,12 @@ public class Delivery extends BaseEntity {
 	@OneToOne(mappedBy = "delivery", fetch = LAZY)
 	private Order order;
 
-	private String ctiy;
-	private String street;
-	private String zipcode;
+	// private String ctiy;
+	// private String street;
+	// private String zipcode;
 
+	@Embedded
+	private Address address;
 	@Enumerated(EnumType.STRING)
 	private DeliveryStatus Status;
 
@@ -36,28 +39,12 @@ public class Delivery extends BaseEntity {
 		this.id = id;
 	}
 
-	public String getCtiy() {
-		return ctiy;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setCtiy(String ctiy) {
-		this.ctiy = ctiy;
-	}
-
-	public String getStreet() {
-		return street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public String getZipcode() {
-		return zipcode;
-	}
-
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public DeliveryStatus getStatus() {
