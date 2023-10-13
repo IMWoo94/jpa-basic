@@ -110,6 +110,40 @@ public class JpaMain {
 			// Address b = new Address("city", "street", "10000");
 			// System.out.println("b == a = " + (b == a));
 
+			// 값 타입 컬렉션 사용
+			Member member = new Member();
+			member.setUsername("asdasd");
+			member.setHomeAddress(new Address("city1", "street", "10000"));
+
+			member.getFavoriteFoods().add("탕수육");
+			member.getFavoriteFoods().add("치킨");
+
+			member.getAddressHistory().add(new AddressEntity(new Address("oldOne1", "street", "10000")));
+			member.getAddressHistory().add(new AddressEntity(new Address("oldOne2", "street", "10000")));
+
+			em.persist(member);
+
+			em.flush();
+			em.clear();
+
+			Member member1 = em.find(Member.class, member.getId());
+			// 조회
+			// Set<String> favoriteFoods = member1.getFavoriteFoods();
+			// System.out.println("member1.getFavoriteFoods().getClass() = " + member1.getFavoriteFoods().getClass());
+			// for (String favoriteFood : favoriteFoods) {
+			// 	System.out.println("favoriteFood = " + favoriteFood);
+			// }
+
+			// 수정
+			// homeCity -> newCity
+			member1.setHomeAddress(new Address("newcity", "street", "100"));
+
+			member1.getFavoriteFoods().remove("탕수육");
+			member1.getFavoriteFoods().add("통닭");
+
+			member1.getAddressHistory().remove(0);
+			member1.getAddressHistory().add(new AddressEntity(new Address("newcity", "street", "100")));
+
 			tx.commit();
 
 		} catch (Exception e) {
