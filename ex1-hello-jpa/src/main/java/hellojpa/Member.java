@@ -1,7 +1,5 @@
 package hellojpa;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -24,8 +22,8 @@ public class Member {
 	// 기간 period
 	// private LocalDateTime startDate;
 	// private LocalDateTime endDate;
-	@Embedded
-	private Period workPeriod;
+	// @Embedded
+	// private Period workPeriod;
 
 	// 주소
 	// private String city;
@@ -33,16 +31,6 @@ public class Member {
 	// private String zipcode;
 	@Embedded
 	private Address homeAddress;
-
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "city", column = @Column(name = "WORK_CITY")),
-		@AttributeOverride(name = "street", column = @Column(name = "WORK_street")),
-		@AttributeOverride(name = "zipcode", column = @Column(name = "WORK_zipcode"))
-	})
-	private Address workAddress;
-
-	private PhoneNumber phoneNumber;
 
 	public Long getId() {
 		return id;
@@ -58,14 +46,6 @@ public class Member {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public Period getWorkPeriod() {
-		return workPeriod;
-	}
-
-	public void setWorkPeriod(Period workPeriod) {
-		this.workPeriod = workPeriod;
 	}
 
 	public Address getHomeAddress() {
