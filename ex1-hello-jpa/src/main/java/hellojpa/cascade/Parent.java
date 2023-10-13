@@ -3,7 +3,6 @@ package hellojpa.cascade;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +19,7 @@ public class Parent {
 
 	private String name;
 
-	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "parent")
 	private List<Child> childList = new ArrayList<>();
 
 	public Long getId() {

@@ -1,21 +1,17 @@
 package hellojpa;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Member")
-public class Member extends BaseEntity {
+public class Member {
 
 	@Id
 	@GeneratedValue
@@ -25,37 +21,35 @@ public class Member extends BaseEntity {
 	@Column(name = "USERNAME")
 	private String username;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
-	private Team team;
+	// 기간 period
+	// private LocalDateTime startDate;
+	// private LocalDateTime endDate;
+	@Embedded
+	private Period workPeriod;
 
-	public Team getTeam() {
-		return team;
+	// 주소
+	// private String city;
+	// private String street;
+	// private String zipcode;
+	@Embedded
+	private Address homeAddress;
+
+	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride(name = "city", column = @Column(name = "WORK_CITY")),
+		@AttributeOverride(name = "street", column = @Column(name = "WORK_street")),
+		@AttributeOverride(name = "zipcode", column = @Column(name = "WORK_zipcode"))
+	})
+	private Address workAddress;
+
+	private PhoneNumber phoneNumber;
+
+	public Long getId() {
+		return id;
 	}
 
-	public void setTeam(Team team) {
-		this.team = team;
-	}
-
-	// @OneToOne
-	// @JoinColumn(name = "LOCKER_ID")
-	// private Locker locker;
-
-	// @ManyToMany
-	// @JoinTable(name = "MEMBER_PRODUCT",
-	// 	joinColumns = @JoinColumn(name = "MEMBER_ID"),
-	// 	inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
-	// private List<Product> products = new ArrayList<>();
-
-	@OneToMany(mappedBy = "member")
-	private List<MemberProduct> memberProducts = new ArrayList<>();
-
-	public Member(Long id, String username) {
+	public void setId(Long id) {
 		this.id = id;
-		this.username = username;
-	}
-
-	public Member() {
 	}
 
 	public String getUsername() {
@@ -66,33 +60,19 @@ public class Member extends BaseEntity {
 		this.username = username;
 	}
 
-	// public Team getTeam() {
-	// 	return team;
-	// }
-	//
-	// public void setTeam(Team team) {
-	// 	this.team = team;
-	// }
-	//
-	// public void changeTeam(Team team) {
-	// 	this.team = team;
-	// 	team.getMembers().add(this);
-	// }
-
-	public Long getId() {
-		return id;
+	public Period getWorkPeriod() {
+		return workPeriod;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setWorkPeriod(Period workPeriod) {
+		this.workPeriod = workPeriod;
 	}
 
-	@Override
-	public String toString() {
-		return "Member{" +
-			"id=" + id +
-			", username='" + username + '\'' +
-			// ", team=" + team +
-			'}';
+	public Address getHomeAddress() {
+		return homeAddress;
+	}
+
+	public void setHomeAddress(Address homeAddress) {
+		this.homeAddress = homeAddress;
 	}
 }

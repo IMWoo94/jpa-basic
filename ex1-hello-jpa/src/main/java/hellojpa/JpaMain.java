@@ -5,9 +5,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import hellojpa.cascade.Child;
-import hellojpa.cascade.Parent;
-
 public class JpaMain {
 	public static void main(String[] args) {
 		// 엔티티 매니저 팩토리 생성
@@ -72,22 +69,30 @@ public class JpaMain {
 			// System.out.println("proxy == origin = " + (member == referenceMember));
 			// System.out.println("proxy instance of oriing = " + (reMember instanceof Member));
 
-			Child child1 = new Child();
-			Child child2 = new Child();
+			// Child child1 = new Child();
+			// Child child2 = new Child();
+			//
+			// Parent parent = new Parent();
+			// parent.addChild(child1);
+			// parent.addChild(child2);
+			//
+			// em.persist(parent);
+			// em.persist(child1);
+			// em.persist(child2);
+			//
+			// em.flush();
+			// em.clear();
+			//
+			// Parent parent1 = em.find(Parent.class, parent.getId());
+			// em.remove(parent1);
 
-			Parent parent = new Parent();
-			parent.addChild(child1);
-			parent.addChild(child2);
+			Member member = new Member();
 
-			em.persist(parent);
-			em.persist(child1);
-			em.persist(child2);
+			member.setUsername("test");
+			member.setHomeAddress(new Address("asd", "ss", "asd"));
+			member.setWorkPeriod(new Period());
 
-			em.flush();
-			em.clear();
-
-			Parent parent1 = em.find(Parent.class, parent.getId());
-			em.remove(parent1);
+			em.persist(member);
 
 			tx.commit();
 
