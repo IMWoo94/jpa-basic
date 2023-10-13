@@ -86,20 +86,29 @@ public class JpaMain {
 			// Parent parent1 = em.find(Parent.class, parent.getId());
 			// em.remove(parent1);
 
-			Address address = new Address("city", "street", "10000");
-			Member member1 = new Member();
-			member1.setUsername("member1");
-			member1.setHomeAddress(address);
-			em.persist(member1);
+			// Address address = new Address("city", "street", "10000");
+			// Member member1 = new Member();
+			// member1.setUsername("member1");
+			// member1.setHomeAddress(address);
+			// em.persist(member1);
+			//
+			// Member member2 = new Member();
+			// member2.setUsername("member2");
+			// member2.setHomeAddress(address);
+			// em.persist(member2);
+			//
+			// // Address 값 타입을 setter 을 제거함으로서 생성 이후에 값이 변경되지 않도록 불변 객체 처리 하여서
+			// // 공유 참조가 되는 것을 막음 부작용이 생성되는 것을 막음
+			// member2.getHomeAddress().setCity("newCity");
 
-			Member member2 = new Member();
-			member2.setUsername("member2");
-			member2.setHomeAddress(address);
-			em.persist(member2);
-
-			// Address 값 타입을 setter 을 제거함으로서 생성 이후에 값이 변경되지 않도록 불변 객체 처리 하여서
-			// 공유 참조가 되는 것을 막음 부작용이 생성되는 것을 막음
-			member2.getHomeAddress().setCity("newCity");
+			// int a = 10;
+			// int b = 10;
+			//
+			// System.out.println("b == a = " + (b == a));
+			//
+			// Address a = new Address("city", "street", "10000");
+			// Address b = new Address("city", "street", "10000");
+			// System.out.println("b == a = " + (b == a));
 
 			tx.commit();
 
