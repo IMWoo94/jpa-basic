@@ -1,7 +1,5 @@
 package hellojpa;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -197,9 +195,14 @@ public class Main {
 			// }
 
 			// 서브 쿼리
-			List resultList = em.createQuery(
-				"select m from Member m where m.age > (select avg (m2.age) from Member m2)").getResultList();
-			System.out.println("resultList.size() = " + resultList.size());
+			// List resultList = em.createQuery(
+			// 	"select m from Member m where m.age > (select avg (m2.age) from Member m2)").getResultList();
+			// System.out.println("resultList.size() = " + resultList.size());
+
+			// 타입 표현 식
+			em.createQuery("select m.username, 'hello', true from Member m "
+				+ "where m.memberType = hellojpa.jpql.MemberType.ADMIN ").getResultList();
+			em.createQuery("select i from Item i where type(i) = Book ");
 
 			tx.commit();
 
