@@ -1,5 +1,7 @@
 package hellojpa;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -200,10 +202,27 @@ public class Main {
 			// System.out.println("resultList.size() = " + resultList.size());
 
 			// 타입 표현 식
-			em.createQuery("select m.username, 'hello', true from Member m "
-				+ "where m.memberType = hellojpa.jpql.MemberType.ADMIN ").getResultList();
-			em.createQuery("select i from Item i where type(i) = Book ");
+			// em.createQuery("select m.username, 'hello', true from Member m "
+			// 	+ "where m.memberType = hellojpa.jpql.MemberType.ADMIN ").getResultList();
+			// em.createQuery("select i from Item i where type(i) = Book ");
 
+			// case 식
+			// 일반 케이스
+			List<String> resultList = em.createQuery(
+					"select case when m.age <= 90 then '학생요금' "
+						+ "when m.age >= 60 then '경로요금' "
+						+ "else '일반요금' end "
+						+ "from Member m", String.class)
+				.getResultList();
+
+			for (String s : resultList) {
+				System.out.println("s = " + s);
+			}
+			// COALESCE
+			em.createQuery("select coalesce(m.username, '이름 없는 회원') from Member m");
+
+			// NULLIF
+			em.createQuery("select NULLIF(m.username, '관리자') from Member m");
 			tx.commit();
 
 		} catch (Exception e) {
