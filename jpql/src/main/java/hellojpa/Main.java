@@ -49,19 +49,19 @@ public class Main {
 
 			// 프로젝션
 
-			Member member = new Member();
-			member.setUsername("test");
-
-			Team team = new Team();
-			team.setName("teamA");
-			em.persist(team);
-
-			member.setTeam(team);
-
-			em.persist(member);
-
-			em.flush();
-			em.clear();
+			// Member member = new Member();
+			// member.setUsername("test");
+			//
+			// Team team = new Team();
+			// team.setName("teamA");
+			// em.persist(team);
+			//
+			// member.setTeam(team);
+			//
+			// em.persist(member);
+			//
+			// em.flush();
+			// em.clear();
 
 			// 엔티티 프로젝션
 			// TypedQuery<Team> query = em.createQuery("select m.team from Member m", Team.class);
@@ -99,33 +99,99 @@ public class Main {
 			// List<MemberDTO> resultList = query.getResultList();
 
 			// 페이징 API
-			Member member1 = new Member();
-			member1.setUsername("1");
-			Member member2 = new Member();
-			member2.setUsername("2");
-			Member member3 = new Member();
-			member3.setUsername("3");
-			Member member4 = new Member();
-			member4.setUsername("4");
-			Member member5 = new Member();
-			member5.setUsername("5");
+			// Member member1 = new Member();
+			// member1.setUsername("1");
+			// Member member2 = new Member();
+			// member2.setUsername("2");
+			// Member member3 = new Member();
+			// member3.setUsername("3");
+			// Member member4 = new Member();
+			// member4.setUsername("4");
+			// Member member5 = new Member();
+			// member5.setUsername("5");
+			//
+			// em.persist(member1);
+			// em.persist(member2);
+			// em.persist(member3);
+			// em.persist(member4);
+			// em.persist(member5);
+			//
+			// List<Member> resultList = em.createQuery("select m from Member m order by m.username desc", Member.class)
+			// 	.setFirstResult(0).setMaxResults(3).getResultList();
+			// int firstResult = em.createQuery("select m from Member m order by m.username desc", Member.class)
+			// 	.getFirstResult();
+			//
+			// for (Member findMember : resultList) {
+			// 	System.out.println("findMember.getUsername() = " + findMember.getUsername());
+			// }
+			// System.out.println("firstResult = " + firstResult);
+			// System.out.println("resultList.size() = " + resultList.size());
 
+			// 조인
+			Member member = new Member();
+			member.setUsername("test");
+			Member member1 = new Member();
+			member1.setUsername("testB");
+			Member member2 = new Member();
+			member2.setUsername("testBBBB");
+
+			Team team = new Team();
+			team.setName("teamA");
+			Team team1 = new Team();
+			team1.setName("teamB");
+			em.persist(team);
+			em.persist(team1);
+
+			member.setTeam(team);
+			member1.setTeam(team1);
+			member2.setTeam(team1);
+			em.persist(member);
 			em.persist(member1);
 			em.persist(member2);
-			em.persist(member3);
-			em.persist(member4);
-			em.persist(member5);
 
-			List<Member> resultList = em.createQuery("select m from Member m order by m.username desc", Member.class)
-				.setFirstResult(0).setMaxResults(3).getResultList();
-			int firstResult = em.createQuery("select m from Member m order by m.username desc", Member.class)
-				.getFirstResult();
+			em.flush();
+			em.clear();
 
-			for (Member findMember : resultList) {
-				System.out.println("findMember.getUsername() = " + findMember.getUsername());
+			// 내부 조인
+			// Query query = em.createQuery("select m from Member m inner join m.team t");
+			// List resultList = query.getResultList();
+			// for (Object o : resultList) {
+			// 	System.out.println("objcet class " + o.getClass());
+			// }
+			//
+			// System.out.println("==================");
+
+			// 잘못된 조인 사용 예 Order 엔티티는 Member 엔티티와 아무런 연관관계가 없다.
+			// em.createQuery("select m from Member m inner join Order o").getResultList();
+
+			// 외부 조인
+			// em.createQuery("select m from Member m right outer join m.team t").getResultList();
+
+			// 컬렉션 조인
+			// List resultList = em.createQuery("select m from Team t left outer join t.members m").getResultList();
+			// for (Object o : resultList) {
+			// 	System.out.println("objcet class " + o.getClass());
+			// }
+
+			// 세타 조인 Order 엔티티는 Member 엔티티와 아무런 연관관계가 없다.
+			// 내부 조인과 외부 조인 방식을 사용하면 오류가 나는데 세타 조인을 처리하면 연관 관계가 없어도 처리가 가능하다.
+			// 단 세타 조인 내부 조인만 지원 된다.
+			// em.createQuery("select m from Member m, Order o where m.username = o.address.city").getResultList();
+
+			// join on 절
+			// on 절 사용 시 연관관계 없는 필드 조인도 가능하게 해준다.
+			// List resultList = em.createQuery("select m from Member m inner join Order o on o.address.city='teamB'")
+			// 	.getResultList();
+			// System.out.println("resultList = " + resultList.size());
+
+			// 페치 조인
+			// 앤티티 페치 조인
+			List resultList = em.createQuery("select m from Member m join fetch m.team").getResultList();
+			for (Object o : resultList) {
+				System.out.println("objcet class " + o.getClass());
+				Member findMember = (Member)o;
+				System.out.println("findMember.getTeam().getName() = " + findMember.getTeam().getName());
 			}
-			System.out.println("firstResult = " + firstResult);
-			System.out.println("resultList.size() = " + resultList.size());
 			tx.commit();
 
 		} catch (Exception e) {
