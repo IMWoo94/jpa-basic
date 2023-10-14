@@ -130,10 +130,13 @@ public class Main {
 			// 조인
 			Member member = new Member();
 			member.setUsername("test");
+			member.setAge(100);
 			Member member1 = new Member();
 			member1.setUsername("testB");
+			member1.setAge(90);
 			Member member2 = new Member();
 			member2.setUsername("testBBBB");
+			member2.setAge(80);
 
 			Team team = new Team();
 			team.setName("teamA");
@@ -186,12 +189,18 @@ public class Main {
 
 			// 페치 조인
 			// 앤티티 페치 조인
-			List resultList = em.createQuery("select m from Member m join fetch m.team").getResultList();
-			for (Object o : resultList) {
-				System.out.println("objcet class " + o.getClass());
-				Member findMember = (Member)o;
-				System.out.println("findMember.getTeam().getName() = " + findMember.getTeam().getName());
-			}
+			// List resultList = em.createQuery("select m from Member m join fetch m.team").getResultList();
+			// for (Object o : resultList) {
+			// 	System.out.println("objcet class " + o.getClass());
+			// 	Member findMember = (Member)o;
+			// 	System.out.println("findMember.getTeam().getName() = " + findMember.getTeam().getName());
+			// }
+
+			// 서브 쿼리
+			List resultList = em.createQuery(
+				"select m from Member m where m.age > (select avg (m2.age) from Member m2)").getResultList();
+			System.out.println("resultList.size() = " + resultList.size());
+
 			tx.commit();
 
 		} catch (Exception e) {
