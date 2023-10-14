@@ -6,10 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
 
 import hellojpa.jpql.Member;
-import hellojpa.jpql.MemberDTO;
 import hellojpa.jpql.Team;
 
 public class Main {
@@ -94,12 +92,40 @@ public class Main {
 			// }
 
 			// 방안 3 new 예약어
-			TypedQuery<MemberDTO> query = em.createQuery(
-				"select new hellojpa.jpql.MemberDTO(m.username, m.age) from Member m",
-				MemberDTO.class);
+			// TypedQuery<MemberDTO> query = em.createQuery(
+			// 	"select new hellojpa.jpql.MemberDTO(m.username, m.age) from Member m",
+			// 	MemberDTO.class);
+			//
+			// List<MemberDTO> resultList = query.getResultList();
 
-			List<MemberDTO> resultList = query.getResultList();
+			// 페이징 API
+			Member member1 = new Member();
+			member1.setUsername("1");
+			Member member2 = new Member();
+			member2.setUsername("2");
+			Member member3 = new Member();
+			member3.setUsername("3");
+			Member member4 = new Member();
+			member4.setUsername("4");
+			Member member5 = new Member();
+			member5.setUsername("5");
 
+			em.persist(member1);
+			em.persist(member2);
+			em.persist(member3);
+			em.persist(member4);
+			em.persist(member5);
+
+			List<Member> resultList = em.createQuery("select m from Member m order by m.username desc", Member.class)
+				.setFirstResult(0).setMaxResults(3).getResultList();
+			int firstResult = em.createQuery("select m from Member m order by m.username desc", Member.class)
+				.getFirstResult();
+
+			for (Member findMember : resultList) {
+				System.out.println("findMember.getUsername() = " + findMember.getUsername());
+			}
+			System.out.println("firstResult = " + firstResult);
+			System.out.println("resultList.size() = " + resultList.size());
 			tx.commit();
 
 		} catch (Exception e) {
