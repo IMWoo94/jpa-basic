@@ -1,7 +1,5 @@
 package hellojpa;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -208,21 +206,38 @@ public class Main {
 
 			// case 식
 			// 일반 케이스
-			List<String> resultList = em.createQuery(
-					"select case when m.age <= 90 then '학생요금' "
-						+ "when m.age >= 60 then '경로요금' "
-						+ "else '일반요금' end "
-						+ "from Member m", String.class)
-				.getResultList();
+			// List<String> resultList = em.createQuery(
+			// 		"select case when m.age <= 90 then '학생요금' "
+			// 			+ "when m.age >= 60 then '경로요금' "
+			// 			+ "else '일반요금' end "
+			// 			+ "from Member m", String.class)
+			// 	.getResultList();
+			//
+			// for (String s : resultList) {
+			// 	System.out.println("s = " + s);
+			// }
+			// // COALESCE
+			// em.createQuery("select coalesce(m.username, '이름 없는 회원') from Member m");
+			//
+			// // NULLIF
+			// em.createQuery("select NULLIF(m.username, '관리자') from Member m");
 
-			for (String s : resultList) {
-				System.out.println("s = " + s);
-			}
-			// COALESCE
-			em.createQuery("select coalesce(m.username, '이름 없는 회원') from Member m");
+			// JPQL 기본 함수
+			em.createQuery("select 'a' || 'b', concat(m.username, 'bbbb') from Member m");
+			em.createQuery("select substring(m.username, 2, 3), trim(m.username) from Member m");
+			em.createQuery("select locate('de','abcdefg') from Member m");
+			em.createQuery("select CURRENT_TIMESTAMP, year(CURRENT_TIMESTAMP), day(CURRENT_TIME) from Member m");
 
-			// NULLIF
-			em.createQuery("select NULLIF(m.username, '관리자') from Member m");
+			// SIZE, INDEX
+			em.createQuery("select size(t.members) from Team t");
+			// @OrderColumn 와 전제조건
+			em.createQuery("select index(t.members) from Team t");
+
+			// 사용자 정의 함수
+			// dialect 를 직접 생성 해야한다. 함수를 만드는 방법은 각각 dialect 등을 확인해보자
+			// 이후 persistence.xml 에 해당 dialect 를 지정해주면 된다.
+			em.createQuery("select function('group_concat', m.username) from Member m");
+
 			tx.commit();
 
 		} catch (Exception e) {
