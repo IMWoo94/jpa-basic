@@ -1,7 +1,5 @@
 package hellojpa;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -318,14 +316,43 @@ public class Main {
 			// 	.getResultList();
 
 			// batch size
-			List<Team> resultList = em.createQuery("select t from Team t", Team.class)
-				.setFirstResult(0)
-				.setMaxResults(2)
-				.getResultList();
+			// List<Team> resultList = em.createQuery("select t from Team t", Team.class)
+			// 	.setFirstResult(0)
+			// 	.setMaxResults(2)
+			// 	.getResultList();
+			//
+			// for (Team team2 : resultList) {
+			// 	System.out.println("team2.getMembers() = " + team2.getMembers());
+			// }
 
-			for (Team team2 : resultList) {
-				System.out.println("team2.getMembers() = " + team2.getMembers());
-			}
+			// JPQL 엔티티 직접 사용
+			// 엔티티의 아이디 직접 사용
+			// em.createQuery("select count(m.id) from Member m").getResultList();
+			// // 엔티티를 직접 사용
+			// em.createQuery("select count(m) from Member m").getResultList();
+			//
+			// // 결과는 동일한 SQL 을 사용하고 엔티티의 기본 키 값을 사용한다.
+			//
+			// // 파라미터 전달
+			// em.createQuery("select m.username from Member m where m = :member")
+			// 	.setParameter("member", member)
+			// 	.getResultList();
+			//
+			// // 식별자 직접 전달
+			// em.createQuery("select m.username from Member m where m.id = :memberId")
+			// 	.setParameter("memberId", member.getId())
+			// 	.getResultList();
+
+			// 외래 키 값 직접 사용
+			// Team findTeam = em.find(Team.class, team.getId());
+			//
+			// em.createQuery("select m.username from Member m where m.team = :team")
+			// 	.setParameter("team", team)
+			// 	.getResultList();
+
+			// Named 쿼리
+			// Member.findByUsername 생성
+			em.createNamedQuery("Member.findByUsername", Member.class).setParameter("username", "test").getResultList();
 
 			tx.commit();
 
