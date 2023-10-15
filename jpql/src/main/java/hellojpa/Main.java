@@ -223,20 +223,32 @@ public class Main {
 			// em.createQuery("select NULLIF(m.username, '관리자') from Member m");
 
 			// JPQL 기본 함수
-			em.createQuery("select 'a' || 'b', concat(m.username, 'bbbb') from Member m");
-			em.createQuery("select substring(m.username, 2, 3), trim(m.username) from Member m");
-			em.createQuery("select locate('de','abcdefg') from Member m");
-			em.createQuery("select CURRENT_TIMESTAMP, year(CURRENT_TIMESTAMP), day(CURRENT_TIME) from Member m");
+			// em.createQuery("select 'a' || 'b', concat(m.username, 'bbbb') from Member m");
+			// em.createQuery("select substring(m.username, 2, 3), trim(m.username) from Member m");
+			// em.createQuery("select locate('de','abcdefg') from Member m");
+			// em.createQuery("select CURRENT_TIMESTAMP, year(CURRENT_TIMESTAMP), day(CURRENT_TIME) from Member m");
+			//
+			// // SIZE, INDEX
+			// em.createQuery("select size(t.members) from Team t");
+			// // @OrderColumn 와 전제조건
+			// em.createQuery("select index(t.members) from Team t").getResultList();
+			//
+			// // 사용자 정의 함수
+			// // dialect 를 직접 생성 해야한다. 함수를 만드는 방법은 각각 dialect 등을 확인해보자
+			// // 이후 persistence.xml 에 해당 dialect 를 지정해주면 된다.
+			// em.createQuery("select function('group_concat', m.username) from Member m");
 
-			// SIZE, INDEX
-			em.createQuery("select size(t.members) from Team t");
-			// @OrderColumn 와 전제조건
-			em.createQuery("select index(t.members) from Team t");
+			// 경로 표현식
 
-			// 사용자 정의 함수
-			// dialect 를 직접 생성 해야한다. 함수를 만드는 방법은 각각 dialect 등을 확인해보자
-			// 이후 persistence.xml 에 해당 dialect 를 지정해주면 된다.
-			em.createQuery("select function('group_concat', m.username) from Member m");
+			// 상태 필드 -> 경로 탐색의 끝
+			em.createQuery("select m.username from Member m");
+
+			// 단일 값 연관 경로 -> 묵시적 내부 조인 발생 추가 탐색 가능
+			em.createQuery("select m.team from Member m");
+
+			// 컬렉션 값 연관 경로 -> 묵시적 내부 조인 발생, 탐색 x
+			em.createQuery("select t.members from Team t");
+			em.createQuery("select m.username from Team t join t.members m").getResultList();
 
 			tx.commit();
 
