@@ -150,8 +150,8 @@ public class Main {
 			em.persist(member1);
 			em.persist(member2);
 
-			em.flush();
-			em.clear();
+			// em.flush();
+			// em.clear();
 
 			// 내부 조인
 			// Query query = em.createQuery("select m from Member m inner join m.team t");
@@ -352,7 +352,29 @@ public class Main {
 
 			// Named 쿼리
 			// Member.findByUsername 생성
-			em.createNamedQuery("Member.findByUsername", Member.class).setParameter("username", "test").getResultList();
+			// em.createNamedQuery("Member.findByUsername", Member.class).setParameter("username", "test").getResultList();
+
+			// 벌크 연산
+			// 벌크 연산 미 사용 시
+			// List<Member> resultList = em.createQuery("select m from Member m", Member.class).getResultList();
+			// for (Member findMember : resultList) {
+			// 	System.out.println("findMember.getAge() = " + findMember.getAge());
+			// 	findMember.setUsername("testy");
+			// }
+			// 조회된 Member 수만큼 변경 감지 동작 및 update 문 발생
+
+			// 벌크 연산 사용
+			// 모든 사용자의 age 를 1000 으로 벌크 연산으로 처리
+			int result = em.createQuery("update Member m set m.age = :age").setParameter("age", 1000).executeUpdate();
+			System.out.println("result = " + result);
+
+			// 벌크 연산 사용 후 초기화는 필수
+			em.clear();
+
+			// 영속성 컨텍스트를 초기화 하지 않고 특정 멤버에 대한 age 를 조회하면 1000 이 아닌 1 차 캐시에 들어 있는 값이 나옴
+			Member findMember = em.find(Member.class, member1.getId());
+			System.out.println("findMember.getAge() = " + findMember.getAge());
+			System.out.println("findMember.getUsername() = " + findMember.getUsername());
 
 			tx.commit();
 
