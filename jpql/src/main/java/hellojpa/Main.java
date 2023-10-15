@@ -1,5 +1,7 @@
 package hellojpa;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -241,14 +243,89 @@ public class Main {
 			// 경로 표현식
 
 			// 상태 필드 -> 경로 탐색의 끝
-			em.createQuery("select m.username from Member m");
+			// em.createQuery("select m.username from Member m");
 
 			// 단일 값 연관 경로 -> 묵시적 내부 조인 발생 추가 탐색 가능
-			em.createQuery("select m.team from Member m");
+			// em.createQuery("select m.team from Member m");
 
 			// 컬렉션 값 연관 경로 -> 묵시적 내부 조인 발생, 탐색 x
-			em.createQuery("select t.members from Team t");
-			em.createQuery("select m.username from Team t join t.members m").getResultList();
+			// em.createQuery("select t.members from Team t");
+			// em.createQuery("select m.username from Team t join t.members m").getResultList();
+
+			// fetch 조인
+			// 일반 조인 시 연관관계 SQL
+			// List<Member> resultList = em.createQuery("select m from Member m", Member.class).getResultList();
+			// for (Member findMember : resultList) {
+			// 	System.out.println("findMember.getUsername() = " + findMember.getUsername());
+			// 	System.out.println("===================");
+			// 	// 일반적으로 연관관계 조회 시 한번 더 SQL 이 날아간다.
+			// 	// 즉시로딩은 로딩 시 조회 쿼리 한번더, 지연 로딩은 실제 연관관계 객체 사용 시 날아간다.
+			// 	System.out.println("findMember.getUsername() = " + findMember.getTeam().getClass());
+			// }
+
+			// fetch 조인을 사용해서 조인 방식으로 한번의 SQL 로 조회
+			// List<Member> resultList = em.createQuery(
+			// 		"select m from Member m inner join fetch m.team", Member.class)
+			// 	.getResultList();
+			// for (Member findMember : resultList) {
+			// 	System.out.println("findMember.getUsername() = " + findMember.getUsername());
+			// 	System.out.println("===================");
+			// 	// 페치 조인을 사용하게 되면 글로벌 페치 조인 전략은 반영되지 않고 JPQL 만을 해석해서 진행한다.
+			// 	// 지연로딩을 섫정해두어도 fetch 조인을 사용하면 즉시로딩 되며, join 으로 하나의 SQL 로 날라 간다.
+			// 	System.out.println("findMember.getUsername() = " + findMember.getTeam().getClass());
+			// }
+
+			// 컬렉션 페치 조인
+			// List<Team> resultList = em.createQuery("select t from Team t join fetch t.members", Team.class)
+			// 	.getResultList();
+			// // 일대다 관계는 결과가 증가 될 수 있다.
+			// for (Team findTeam : resultList) {
+			// 	System.out.println("findTeam.getName() = " + findTeam.getName());
+			// 	System.out.println("findTeam.getMembers().getClass() = " + findTeam.getMembers().getClass());
+			// }
+
+			// 컬렉션 페치 조인 distinct 사용 하면 결과 값이 DB 상에서 중복은 제거 해주는 기능도 있지만,
+			// 애플리케이션 단에서 중복 되는 객체도 제거해준다.
+			// List<Team> resultList = em.createQuery("select distinct t from Team t join fetch t.members", Team.class)
+			// 	.getResultList();
+			// for (Team findTeam : resultList) {
+			// 	System.out.println("findTeam.getName() = " + findTeam.getName());
+			// 	System.out.println("findTeam.getMembers().getClass() = " + findTeam.getMembers().getClass());
+			// }
+
+			// 컬렉션 래퍼 프록시 확인
+			// List<Team> findTeam = em.createQuery("select t from Team t", Team.class).getResultList();
+			// for (Team ooo : findTeam) {
+			// 	System.out.println(
+			// 		"ooo.getMembers().getClass() = " + ooo.getMembers().getClass());
+			// }
+			// List resultList = em.createQuery("select t.members from Team t").getResultList();
+			// System.out.println("resultList.getClass() = " + resultList.getClass());
+			// for (Object o : resultList) {
+			// 	System.out.println("o.getClass() = " + o.getClass());
+			// }
+
+			// 페치 조인 시 페이징 처리 일대다
+			// em.createQuery("select t from Team t join fetch t.members m")
+			// 	.setFirstResult(0)
+			// 	.setMaxResults(2)
+			// 	.getResultList();
+
+			// 일대다를 다대일로 페이징 처리
+			// em.createQuery("select m from Member m join fetch m.team t")
+			// 	.setFirstResult(0)
+			// 	.setMaxResults(2)
+			// 	.getResultList();
+
+			// batch size
+			List<Team> resultList = em.createQuery("select t from Team t", Team.class)
+				.setFirstResult(0)
+				.setMaxResults(2)
+				.getResultList();
+
+			for (Team team2 : resultList) {
+				System.out.println("team2.getMembers() = " + team2.getMembers());
+			}
 
 			tx.commit();
 
